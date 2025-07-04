@@ -126,3 +126,13 @@
 | Morphological Diversity  | Grammatical richness, flexibility |
 
 ---
+
+## 📝 Updates Log
+
+* 2025/7/3
+* - Initialized the project and incorporated spaCy.
+* - Can now read English & Chinese input and parse into spans & tokens
+* 2025/7/4
+* - Constructed characteristics (POS, Dep, lemma, and Morph) extraction functions for both English and Chinese
+* - Constructed variance calculation & display functions
+* - Designed evaluation process and variables used for English; uploaded to GitHub
