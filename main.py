@@ -5,33 +5,31 @@ from collections import Counter
 from textblob import TextBlob
 from analyze import text_analyze_eng, text_analyze_chn
 
+from langdetect import detect
+
 from google import genai
 
-lang = 'Chn'
 
 def main():
-
+    input_filename = 'english_sample.txt'
     # connecting to Gemini
     client = genai.Client()
+    with open("input/"+input_filename, "r", encoding="utf-8") as f:
+        input_text = f.read()
+    lang = detect(input_text)
+    print(lang)
+    if lang and lang == 'en':
+        # nlp = spacy.load("en_core_web_md")
+        prompt = text_analyze_eng(input_text)
+    elif lang and lang == 'zh-cn':
+       #  nlp = spacy.load("zh_core_web_sm")
+        prompt = text_analyze_chn(input_text) + "\nThe text is a Chinese text and your audience are native Chinese speakers. Therefore, analyze it using Chinese."
     
-    if lang == 'Eng':
-            nlp = spacy.load("en_core_web_md")
-            # read input text
-            with open("input/english_sample.txt", "r", encoding="utf-8") as f:
-                input_text = f.read()
-            prompt = text_analyze_eng(input_text)
-    elif lang == 'Chn':
-        nlp = spacy.load("zh_core_web_sm")
-        # read input text
-        with open("input/chinese_sample.txt", "r", encoding="utf-8") as f:
-            input_text = f.read()
-        prompt = text_analyze_chn(input_text)
-
     # print(prompt)
     
     response = client.models.generate_content(
     model="gemini-2.5-flash", contents=prompt)
-    print(f"\n ------------- \n{response.text}")
+    print(f"\n------------- \n{response.text}")
 
     
 

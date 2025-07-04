@@ -195,7 +195,7 @@ def text_analyze_chn(input_text):
     output_variance(clause_freq_variance, "Clauses per sentence")
 
     # assembling prompt
-    with open("prompt_template_Chn.txt", "r", encoding="utf-8") as file:
+    with open("prompt_template.txt", "r", encoding="utf-8") as file:
         prompt_template = file.read()
     final_prompt = prompt_template.format(
         text_excerpt=input_text[:500],  # limit to first 500 characters or so

@@ -139,3 +139,5 @@
 * - Incorporated (partial) data into an English script for GenAI to summarize
 * - Connected to Google Gemini API and successfully produced decent output
 * - Designed another version of input prompts for English and Chinese text & audience; Gemini also produces decent response in Chinese
+* - Incorporated prompt v3's English and Chinese versions into a single prompt for future use; the code now also allows custom input text.
+* 
