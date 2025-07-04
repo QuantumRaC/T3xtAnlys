@@ -14,6 +14,7 @@
 * **Principle:**
   Most analysis will be **rule-based** for transparency and interpretability; **GenAI** is used **only for summarization**, not core analysis.
 
+* This project is currently work in progress.
 ---
 
 ## Models
