@@ -143,7 +143,7 @@ def text_analyze_chn(input_text):
     for sent in doc.sents:
         # parse into sentences (sent)
         sent_lengths.append(len(sent))
-        # print(f"\nSentence: {sent.text}")
+        print(f"\nSentence: {sent.text}")
         morphs.append([])
         for token in sent:
             # Convert morph to string first

@@ -1,122 +1,79 @@
-
----
 # ✍️ T3xtAnlys: Text Style & Structure Analyzer
 
-## Overall Goal
+## 🔍 Overall Goal
 
-* **Purpose:**
-  To analyze how **writing techniques, word choice, grammatical structures, and sentiment** contribute to the **style, tone and presentation** of a given text.
-* **How:**
+### ★ Purpose:
 
-  1. Use **NLP tools** (primarily spaCy) to extract linguistic features such as syntax, sentence structure, vocabulary, and grammatical patterns.
-  2. Apply **sentiment analysis** (e.g., TextBlob) to capture emotional tone.
-  3. Use **GenAI (Google Gemini)** to generate a **human-readable description** of the writing style based on the extracted data. 
-* **Principle:**
-  Most analysis will be **rule-based** for transparency and interpretability; **GenAI** is used **only for summarization**, not core analysis.
+To analyze how **writing techniques, word choice, grammatical structures, and sentiment** contribute to the **style, tone, and presentation** of a given text.
 
-* This project is currently work in progress.
+### ★ How:
+
+1. Use **NLP tools** (primarily spaCy) to extract linguistic features such as:
+
+   * Syntax
+   * Sentence structure
+   * Vocabulary & grammatical patterns
+
+2. Apply **sentiment analysis** (TextBlob for English) to capture emotional tone.
+
+3. Use **GenAI (Google Gemini)** to generate a **human-readable description** of the text's writing style, tone, and presentation based on the extracted data.
+
+### ★ Principle:
+
+* Most analysis is **rule-based** for transparency and interpretability.
+* **GenAI** is used **only for summarization and style interpretation**, not core extraction.
+
+*This project is currently work in progress.*
+
 ---
 
-## Models
+## 💡 Models Used
 
-| Language | Model            | Reason                                                                                                                  |
-| -------- | ---------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| English  | `en_core_web_md` | Medium-sized English model with **vectors** support, allowing for semantic similarity and richer token representations. |
+| Language | Model            | Reason                                                                                                |
+| -------- | ---------------- | ----------------------------------------------------------------------------------------------------- |
+| English  | `en_core_web_md` | Medium-sized English model with **vectors** for richer token representations and semantic similarity. |
+| Chinese  | `zh_core_web_sm` | Lightweight Chinese language model for syntactic and morphological parsing.                           |
 
 ---
 
-## Key Linguistic Attributes & How to Analyze Them
+## 🔢 Key Linguistic Attributes & Analysis Approach
 
 ### 1. **Span (Text Continuity & Flow)**
 
-* **What:** A `Span` in spaCy is a slice of a `Doc`—this can represent any **phrase, sentence, or paragraph**.
-* **Style Clues:**
-
-  * Average sentence (`sent`) length and its **variance** reflect continuity.
-  * Use of **subordination** (e.g., conjunctions, relative clauses) suggests more **extended or flowing spans**.
-* **Metric Ideas:**
-
-  * Average sentence length (`len(sent)`).
-  * Clauses per sentence (`dep_` relations like `advcl`, `ccomp`).
-
----
+* Average sentence length and its variability reflect continuity and rhythm.
+* Use of subordination (e.g., conjunctions, relative clauses) suggests complex or flowing spans.
 
 ### 2. **POS (Part-of-Speech Tagging)**
 
-* **What:** Each token is labeled as `NOUN`, `VERB`, `ADJ`, etc.
-* **Style Clues:**
-
-  * High use of **nouns** → objective/descriptive style.
-  * High use of **verbs** → action-driven narrative.
-  * Excess of **adverbs/adjectives** → emotional, vivid writing.
-* **Metric Ideas:**
-
-  * Frequency % of each POS tag (compare to baseline e.g., [POS distribution in English](https://english.stackexchange.com/questions/55486/what-are-the-percentages-of-the-parts-of-speech-in-english)).
-
----
+* Noun-heavy text: descriptive, objective tone.
+* Verb-heavy text: dynamic, action-driven tone.
+* High adverb/adjective use: vivid, emotional tone.
 
 ### 3. **Dep (Syntactic Dependency)**
 
-* **What:** Relations like `nsubj`, `dobj`, `ccomp`, showing **how words connect**.
-* **Style Clues:**
-
-  * Frequent **nested dependencies** → complex sentences.
-  * Repetitive use of certain constructions (e.g., `that` clauses) → stylistic habits.
-* **Metric Ideas:**
-
-  * Dependency frequency tables.
-  * Average tree depth (advanced).
-
----
+* Frequent nested dependencies suggest syntactic complexity.
+* Recurring dependency patterns hint at stylistic habits.
 
 ### 4. **Morphology**
 
-* **What:** Features like **Tense=Past**, **Number=Sing**, **Mood=Ind**.
-* **Style Clues:**
-
-  * Predominant **tense** or **person** (first vs. third).
-  * Rich or minimal morphological variation.
-* **Metric Ideas:**
-
-  * Count distinct morph features across text.
-  * Variance of tense, person.
-
----
+* Tense, mood, person, and number convey formality, narrative perspective, and stylistic consistency.
 
 ### 5. **Token Shape**
 
-* **What:** The shape of the word (e.g., `Xxxx`, `d`).
-* **Style Clues:**
-
-  * Excessive use of capitalization or punctuation → expressive tone.
-  * Use of digits or symbols → technical style.
-
----
+* Use of capitalization, punctuation, or symbols indicates expressive, technical, or playful tone.
 
 ### 6. **Sentiment & Emotion**
 
-* **Tools:** TextBlob or Vader for English.
-* **Style Clues:**
-
-  * Positive, negative, neutral overall sentiment.
-  * Emotional intensity (polarity magnitude).
-
----
+* Sentiment analysis captures positive, negative, or neutral tone.
+* Emotional intensity is reflected in polarity strength.
 
 ### 7. **Lexical Repetition & Motifs**
 
-* **What:** Repeated words, lemmas, or expressions.
-* **Style Clues:**
-
-  * Repetition for emphasis, rhythm, or thematic cohesion.
-* **Metric Ideas:**
-
-  * Most common lemmas (excluding stop words).
-  * Ratio of repeated words.
+* Repetitive words, phrases, or grammatical structures create emphasis, rhythm, and cohesion.
 
 ---
 
-## Statistical Variability Measures Used
+## 📊 Statistical Variability Measures Used
 
 | Feature                  | Significance for Style            |
 | ------------------------ | --------------------------------- |
@@ -125,19 +82,27 @@
 | Token Length Variance    | Lexical complexity, pacing        |
 | Morphological Diversity  | Grammatical richness, flexibility |
 
+These statistical patterns help guide the GenAI summarization, enabling it to:
+
+* Infer stylistic traits (e.g., formal vs. casual, concise vs. verbose).
+* Detect pacing, rhythm, and repetition without explicitly reporting raw numbers.
+
 ---
 
-## 📝 Updates Log
+## 📅 🖋️ Updates Log
 
-* 2025/7/3
-* - Initialized the project and incorporated spaCy.
-* - Can now read English & Chinese input and parse into spans & tokens
-* 2025/7/4
-* - Constructed characteristics (POS, Dep, lemma, and Morph) extraction functions for both English and Chinese
-* - Constructed variance calculation & display functions
-* - Designed evaluation process and variables used for English; uploaded to GitHub
-* - Incorporated (partial) data into an English script for GenAI to summarize
-* - Connected to Google Gemini API and successfully produced decent output
-* - Designed another version of input prompts for English and Chinese text & audience; Gemini also produces decent response in Chinese
-* - Incorporated prompt v3's English and Chinese versions into a single prompt for future use; the code now also allows custom input text.
-* 
+### 2025/7/3
+
+* Initialized project and incorporated **spaCy** for English & Chinese.
+* Built functions to extract spans, tokens, POS, dependencies, and morphology.
+
+### 2025/7/4
+
+* Added variance calculations for key stylistic metrics.
+* Created evaluation process for **sentence length**, **token length**, **clause density**.
+* Connected **Google Gemini** API for style summarization.
+* Implemented prompt generation based on extracted data.
+* Designed dual-language prompts for English & Chinese text and audience.
+* Allowed **custom text input** via file for flexible analysis.
+
+---
