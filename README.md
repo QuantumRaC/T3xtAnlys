@@ -10,7 +10,7 @@
 
   1. Use **NLP tools** (primarily spaCy) to extract linguistic features such as syntax, sentence structure, vocabulary, and grammatical patterns.
   2. Apply **sentiment analysis** (e.g., TextBlob) to capture emotional tone.
-  3. Use **GenAI (Google Gemini)** to generate a **human-readable description** of the writing style based on the extracted data.
+  3. * Use **GenAI (Google Gemini)** to generate a **human-readable description** of the writing style based on the extracted data. # TODO
 * **Principle:**
   Most analysis will be **rule-based** for transparency and interpretability; **GenAI** is used **only for summarization**, not core analysis.
 
