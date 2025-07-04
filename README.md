@@ -10,7 +10,7 @@
 
   1. Use **NLP tools** (primarily spaCy) to extract linguistic features such as syntax, sentence structure, vocabulary, and grammatical patterns.
   2. Apply **sentiment analysis** (e.g., TextBlob) to capture emotional tone.
-  3. * Use **GenAI (Google Gemini)** to generate a **human-readable description** of the writing style based on the extracted data. # TODO
+  3. Use **GenAI (Google Gemini)** to generate a **human-readable description** of the writing style based on the extracted data. 
 * **Principle:**
   Most analysis will be **rule-based** for transparency and interpretability; **GenAI** is used **only for summarization**, not core analysis.
 
@@ -136,3 +136,6 @@
 * - Constructed characteristics (POS, Dep, lemma, and Morph) extraction functions for both English and Chinese
 * - Constructed variance calculation & display functions
 * - Designed evaluation process and variables used for English; uploaded to GitHub
+* - Incorporated (partial) data into an English script for GenAI to summarize
+* - Connected to Google Gemini API and successfully produced decent output
+* - Designed another script for Chinese text & audience; Gemini also produces decent response in Chinese
