@@ -1,42 +1,55 @@
-You are an expert in computational linguistics and literary style analysis.
+You are an expert in literary style, rhetorical writing techniques, and computational linguistics.
 
-Analyze the following text based on the provided linguistic and statistical metrics. Your goal is to generate a clear, human-readable description of the text's **style, tone, and presentation** for a general audience.
+Your task is to analyze the following text and generate a clear, reader-friendly description of its **style, tone, pacing, and presentation**. Focus on **how the writer achieves these effects** through choices in **sentence structure, word choice, rhythm, and repetition**.
 
----
+Imagine you are explaining to someone **how to write in this style** or **how this style shapes the reader's experience**.
 
-Key Statistical Features:
 
-1. **Sentence Length (words):**
-   - Average: {avg_sentence_length}
-   - Standard Deviation: {std_sentence_length}
-   - Range: {range_sentence_length}
-   - Oscillation Ratio: {osc_sentence_length:.1%}
 
-2. **Token Length (characters):**
-   - Average: {avg_token_length}
-   - Standard Deviation: {std_token_length}
-   - Range: {range_token_length}
-   - Oscillation Ratio: {osc_token_length:.1%}
+Linguistic Clues (for your reference—not for mechanical reporting):
 
-3. **Clauses per Sentence:**
-   - Average: {avg_clauses_per_sentence}
-   - Standard Deviation: {std_clauses_per_sentence}
-   - Range: {range_clauses_per_sentence}
-   - Oscillation Ratio: {osc_clauses_per_sentence:.1%}
+- **Sentence Length (words):**
+  - Average: {avg_sentence_length}
+  - Standard Deviation: {std_sentence_length}
+  - Range: {range_sentence_length}
+  - Oscillation Ratio: {osc_sentence_length:.1%}
 
----
+- **Token Length (characters):**
+  - Average: {avg_token_length}
+  - Standard Deviation: {std_token_length}
+  - Range: {range_token_length}
+  - Oscillation Ratio: {osc_token_length:.1%}
 
-Additional Linguistic Features:
+- **Clauses per Sentence:**
+  - Average: {avg_clauses_per_sentence}
+  - Standard Deviation: {std_clauses_per_sentence}
+  - Range: {range_clauses_per_sentence}
+  - Oscillation Ratio: {osc_clauses_per_sentence:.1%}
 
-- Part of Speech Distribution: {pos_freq}
-- Dependency Distribution: {dep_freq}
-- Verb Tense Distribution: {verb_tense_freq}
-- Most Frequent Lemmas: {lemma_freq}
-- Morphological Patterns (first 2 sentences): {morphs_sample}
+- **Part of Speech Distribution:** {pos_freq}
+- **Dependency Distribution:** {dep_freq}
+- **Verb Tense Distribution:** {verb_tense_freq}
+- **Most Frequent Lemmas:** {lemma_freq}
+- **Morphological Patterns (first 2 sentences):** {morphs_sample}
 
 ---
 
-Task for you:
-- Based on these data points, describe the text's **writing style, tone, pacing, and syntactic complexity**.
-- Comment on whether the style appears **formal or informal, complex or simple, dynamic or static**, and any **patterns or motifs** suggested by word or structure repetition.
-- Use accessible language for a general reader, but feel free to use stylistic terminology where appropriate.
+In your response, address the following:
+
+1. **Overall Style & Tone:**
+   - Is it formal, informal, poetic, journalistic, reflective, conversational, etc.?
+
+2. **Writing Techniques & Effects:**
+   - What sentence structures, rhythms, or patterns shape the pacing and mood?
+   - What choices in wording or repetition contribute to emphasis, emotion, or theme?
+
+3. **Guidance for Imitation:**
+   - If someone wanted to write in this style, what specific techniques should they use? (e.g., long sentences, vivid verbs, repetitive phrasing, etc.)
+
+---
+
+Important Guidelines:
+- Use the provided data as **background insights** to inform your analysis—do not simply report the numbers.
+- Focus on explaining **how specific writing choices create specific effects** on the reader.
+- Avoid vague statements—ground your insights in observable patterns from the text and linguistic clues.
+

@@ -1,0 +1,42 @@
+You are an expert in computational linguistics and literary style analysis.
+
+Analyze the following text based on the provided linguistic and statistical metrics. Your goal is to generate a clear, human-readable Chinese description of the text's **style, tone, and presentation** for a general native Chinese audience.
+
+---
+
+Key Statistical Features:
+
+1. **Sentence Length (words):**
+   - Average: {avg_sentence_length}
+   - Standard Deviation: {std_sentence_length}
+   - Range: {range_sentence_length}
+   - Oscillation Ratio: {osc_sentence_length:.1%}
+
+2. **Token Length (characters):**
+   - Average: {avg_token_length}
+   - Standard Deviation: {std_token_length}
+   - Range: {range_token_length}
+   - Oscillation Ratio: {osc_token_length:.1%}
+
+3. **Clauses per Sentence:**
+   - Average: {avg_clauses_per_sentence}
+   - Standard Deviation: {std_clauses_per_sentence}
+   - Range: {range_clauses_per_sentence}
+   - Oscillation Ratio: {osc_clauses_per_sentence:.1%}
+
+---
+
+Additional Linguistic Features:
+
+- Part of Speech Distribution: {pos_freq}
+- Dependency Distribution: {dep_freq}
+- Verb Tense Distribution: {verb_tense_freq}
+- Most Frequent Lemmas: {lemma_freq}
+- Morphological Patterns (first 2 sentences): {morphs_sample}
+
+---
+
+Task for you:
+- Based on these data points, describe the text's **writing style, tone, pacing, and syntactic complexity**.
+- Comment on whether the style appears **formal or informal, complex or simple, dynamic or static**, and any **patterns or motifs** suggested by word or structure repetition.
+- Use accessible language for a general reader, but feel free to use stylistic terminology where appropriate.

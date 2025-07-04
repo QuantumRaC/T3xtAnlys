@@ -138,4 +138,4 @@
 * - Designed evaluation process and variables used for English; uploaded to GitHub
 * - Incorporated (partial) data into an English script for GenAI to summarize
 * - Connected to Google Gemini API and successfully produced decent output
-* - Designed another script for Chinese text & audience; Gemini also produces decent response in Chinese
+* - Designed another version of input prompts for English and Chinese text & audience; Gemini also produces decent response in Chinese
