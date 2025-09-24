@@ -1,6 +1,22 @@
+# Core web framework
 fastapi
-uvicorn
+uvicorn[standard]
+
+# NLP
 spacy
 textblob
 langdetect
-google-generativeai
+
+# Utilities
+tabulate
+python-dotenv
+
+# Google GenAI client
+google-genai
+
+# Start the FastAPI server
+web: uvicorn backend.app:app --host 0.0.0.0 --port $PORT
+
+# Postbuild: download spaCy models
+postbuild: python -m spacy download en_core_web_md && python -m spacy download zh_core_web_sm
+
