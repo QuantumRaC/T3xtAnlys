@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+spacy
+textblob
+langdetect
+google-generativeai

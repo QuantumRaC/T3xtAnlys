@@ -11,9 +11,9 @@ from google import genai
 
 
 def main():
-    input_filename = 'english_sample.txt'
+    input_filename = 'borges_chinese_sample.txt'
     # connecting to Gemini
-    client = genai.Client()
+    client = genai.Client(api_key="AIzaSyAAdeVLdIIbDLkDxS_ZBkFb1MBo0_anmOc")
     with open("input/"+input_filename, "r", encoding="utf-8") as f:
         input_text = f.read()
     lang = detect(input_text)

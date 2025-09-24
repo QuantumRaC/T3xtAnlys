@@ -94,10 +94,10 @@ These statistical patterns help guide the GenAI summarization, enabling it to:
 ### 2025/7/3
 
 * Initialized project and incorporated **spaCy** for English & Chinese.
-* Built functions to extract spans, tokens, POS, dependencies, and morphology.
 
 ### 2025/7/4
 
+* Built functions to extract spans, tokens, POS, dependencies, and morphology.
 * Added variance calculations for key stylistic metrics.
 * Created evaluation process for **sentence length**, **token length**, **clause density**.
 * Connected **Google Gemini** API for style summarization.
