@@ -3,7 +3,9 @@ from langdetect import detect
 from analyze import text_analyze_chn, text_analyze_eng
 from google import genai
 import os
+from dotenv import load_dotenv
 
+load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
 app = FastAPI() #creating FastAPI application obj ("server")
 client = genai.Client(api_key=api_key)
