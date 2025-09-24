@@ -8,12 +8,16 @@ from analyze import text_analyze_eng, text_analyze_chn
 from langdetect import detect
 
 from google import genai
+import os
+
+api_key = os.getenv("GEMINI_API_KEY")
+client = genai.Client(api_key=api_key)
+
 
 
 def main():
     input_filename = 'borges_chinese_sample.txt'
     # connecting to Gemini
-    client = genai.Client(api_key="AIzaSyAAdeVLdIIbDLkDxS_ZBkFb1MBo0_anmOc")
     with open("input/"+input_filename, "r", encoding="utf-8") as f:
         input_text = f.read()
     lang = detect(input_text)
