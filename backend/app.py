@@ -2,9 +2,24 @@ from fastapi import FastAPI, Body
 from langdetect import detect
 from analyze import text_analyze_chn, text_analyze_eng
 from google import genai
+import os
 
+api_key = os.getenv("GEMINI_API_KEY")
 app = FastAPI() #creating FastAPI application obj ("server")
-client = genai.client
+client = genai.Client(api_key=api_key)
+
+from fastapi.middleware.cors import CORSMiddleware
+
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],   # during dev allow all; in prod restrict to your site
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 @app.get("/")
 async def root():
@@ -18,6 +33,7 @@ async def analyze_text(payload: dict = Body(...)):
         # in case of empty input, return error instead of sending it to GenAI
     
     lang = detect(text)
+    print(text)
     if lang == "en":
         prompt = text_analyze_eng(text)
     elif lang == "zh-cn":

@@ -14,7 +14,6 @@ api_key = os.getenv("GEMINI_API_KEY")
 client = genai.Client(api_key=api_key)
 
 
-
 def main():
     input_filename = 'borges_chinese_sample.txt'
     # connecting to Gemini
@@ -35,7 +34,6 @@ def main():
     model="gemini-2.5-flash", contents=prompt)
     print(f"\n------------- \n{response.text}")
 
-    
 
 if __name__ == '__main__':
     main()
