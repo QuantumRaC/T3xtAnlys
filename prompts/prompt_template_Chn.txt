@@ -52,4 +52,5 @@ Important Guidelines:
 - Use the provided data as **background insights** to inform your analysis—do not simply report the numbers.
 - Focus on explaining **how specific writing choices create specific effects** on the reader.
 - Avoid vague statements—ground your insights in observable patterns from the text and linguistic clues.
-
+- write your entire output in Simplified Chinese.
+- Limit your output to below 250 characters (Chinese).
