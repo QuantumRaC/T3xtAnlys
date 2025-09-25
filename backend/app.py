@@ -12,8 +12,6 @@ client = genai.Client(api_key=api_key)
 
 from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],   # during dev allow all; in prod restrict to your site
@@ -21,7 +19,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 @app.get("/")
 async def root():
@@ -40,8 +37,13 @@ async def analyze_text(payload: dict = Body(...)):
         prompt = text_analyze_eng(text)
     elif lang == "zh-cn":
         prompt = text_analyze_chn(text)
-    response = client.models.generate_content(
-        model = "gemini-2.5-flash",
-        contents = prompt
-    )
+    else:
+        return {"error": f"Unsupported language detected: {lang}"}
+    try:
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=prompt
+        )
+    except Exception as e:
+        return {"error": f"AI generation failed: {str(e)}"}
     return {"language": lang, "analysis": response.text}
