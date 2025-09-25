@@ -1,6 +1,7 @@
 fastapi
 uvicorn[standard]
 spacy
+blis==0.10.10   # prebuilt wheel exists for Linux x86_64
 textblob
 langdetect
 tabulate
