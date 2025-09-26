@@ -45,7 +45,7 @@ async def root():
 
 @app.post("/analyze")
 @limiter.limit("30/minute;500/day")
-async def analyze_text(payload: dict = Body(...), request: Request=None):
+async def analyze_text(request: Request, payload: dict = Body(...)):
     text = payload.get("text", "")
     if not text.strip():
         return {"error": "No text provided."}
