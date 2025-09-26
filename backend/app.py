@@ -57,11 +57,13 @@ async def analyze_text(request: Request, payload: dict = Body(...)):
         if not nlp_en:
             nlp_en = spacy.load("en_core_web_md")
         prompt = text_analyze_eng(text, nlp_en)
+        nlp_en = None
     elif lang == "zh-cn":
         global nlp_cn
         if not nlp_cn:
             nlp_cn = spacy.load("zh_core_web_sm")
         prompt = text_analyze_chn(text, nlp_cn)
+        nlp_cn = None
     else:
         return {"error": f"Unsupported language detected: {lang}"}
     
