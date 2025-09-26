@@ -44,8 +44,7 @@ async def root():
     return {"message": "T3xtAnlys API is up and *running*!"}
 
 @app.post("/analyze")
-@limiter.limit("30/minute")
-@limiter.limit("500/day")
+@limiter.limit("30/minute;500/day")
 async def analyze_text(payload: dict = Body(...)):
     text = payload.get("text", "")
     if not text.strip():
