@@ -1,5 +1,9 @@
 import spacy
-from fastapi import FastAPI, Body 
+from fastapi import FastAPI, Body, Request
+from fastapi.responses import JSONResponse
+from slowapi import Limiter
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 from langdetect import detect
 from analyze import text_analyze_chn, text_analyze_eng
 from google import genai
@@ -10,9 +14,20 @@ load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
 app = FastAPI() #creating FastAPI application obj ("server")
 client = genai.Client(api_key=api_key)
-
 nlp_en = None
 nlp_cn = None
+
+# Initialize Limiter
+limiter = Limiter(key_func=get_remote_address)
+app.state.limiter = limiter
+
+# Handle rate limit exceeded
+@app.exception_handler(RateLimitExceeded)
+async def rate_limit_handler(request: Request, exc: RateLimitExceeded):
+    return JSONResponse(
+        status_code=429,
+        content={"error": "Rate limit exceeded. Please try again later."}
+    )
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -29,6 +44,8 @@ async def root():
     return {"message": "T3xtAnlys API is up and *running*!"}
 
 @app.post("/analyze")
+@limiter.limit("30/minute")
+@limiter.limit("500/day")
 async def analyze_text(payload: dict = Body(...)):
     text = payload.get("text", "")
     if not text.strip():
