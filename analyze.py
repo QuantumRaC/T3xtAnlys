@@ -6,9 +6,6 @@ import statistics
 from textblob import TextBlob
 from tabulate import tabulate
 
-nlp_en = spacy.load("en_core_web_md")
-nlp_cn = spacy.load("zh_core_web_sm")
-
 # helper function that outputs a dictionary of avg, s.d., range, & oscillation of the list.
 def variance_measures(input_list):
     sd = statistics.stdev(input_list) if len(input_list) > 1 else 0
@@ -37,7 +34,7 @@ def output_variance(variance_dict, measure_name):
     print(measure_name)
     print(tabulate(data, tablefmt="grd") + '\n')
 
-def text_analyze_eng(input_text):
+def text_analyze_eng(input_text, nlp_en):
     
     tokens = [] # list of tokens (not excluding PUNCT)
     lemmas = [] # list of lemmas of ADJ, ADV, INTJ, NOUN, SCONJ, VERB or PROPN
@@ -131,7 +128,7 @@ def text_analyze_eng(input_text):
     return final_prompt
 
 
-def text_analyze_chn(input_text):
+def text_analyze_chn(input_text, nlp_cn):
     # nlp = spacy.load("en_core_web_md")
     tokens = [] # list of tokens (not excluding PUNCT)
     lemmas = [] # list of lemmas of ADJ, ADV, INTJ, NOUN, SCONJ, VERB or PROPN
