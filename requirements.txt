@@ -1,4 +1,5 @@
 fastapi
+slowapi
 uvicorn[standard]
 spacy==3.8.7
 blis>=1.0.0,<1.3
