@@ -55,7 +55,7 @@ async def analyze_text(request: Request, payload: dict = Body(...)):
     if lang == "en":
         global nlp_en
         if not nlp_en:
-            nlp_en = spacy.load("en_core_web_md")
+            nlp_en = spacy.load("en_core_web_sm")
         prompt = text_analyze_eng(text, nlp_en)
         nlp_en = None
     elif lang == "zh-cn":
