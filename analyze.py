@@ -6,6 +6,9 @@ import statistics
 from textblob import TextBlob
 from tabulate import tabulate
 
+nlp_en = spacy.load("en_core_web_md")
+nlp_cn = spacy.load("zh_core_web_sm")
+
 # helper function that outputs a dictionary of avg, s.d., range, & oscillation of the list.
 def variance_measures(input_list):
     sd = statistics.stdev(input_list) if len(input_list) > 1 else 0
@@ -35,15 +38,15 @@ def output_variance(variance_dict, measure_name):
     print(tabulate(data, tablefmt="grd") + '\n')
 
 def text_analyze_eng(input_text):
-    nlp = spacy.load("en_core_web_md")
+    
     tokens = [] # list of tokens (not excluding PUNCT)
     lemmas = [] # list of lemmas of ADJ, ADV, INTJ, NOUN, SCONJ, VERB or PROPN
     sent_lengths = [] # list of each sentence's length (not excluding PUNCT)
     token_lengths = [] # list of each token's (exclude PUNCT) length
     morphs = [] # a list of lists; each sublist is a sentence; each item is a token's morphs
 
-    doc = nlp(input_text)
-    print("Pipeline:", nlp.pipe_names)
+    doc = nlp_en(input_text)
+    print("Pipeline:", nlp_en.pipe_names)
 
     for sent in doc.sents:
         # parse into sentences (sent)
@@ -130,15 +133,14 @@ def text_analyze_eng(input_text):
 
 def text_analyze_chn(input_text):
     # nlp = spacy.load("en_core_web_md")
-    nlp = spacy.load("zh_core_web_sm")
     tokens = [] # list of tokens (not excluding PUNCT)
     lemmas = [] # list of lemmas of ADJ, ADV, INTJ, NOUN, SCONJ, VERB or PROPN
     sent_lengths = [] # list of each sentence's length (not excluding PUNCT)
     token_lengths = [] # list of each token's (exclude PUNCT) length
     morphs = [] # a list of lists; each sublist is a sentence; each item is a token's morphs
 
-    doc = nlp(input_text)
-    print("Pipeline:", nlp.pipe_names)
+    doc = nlp_cn(input_text)
+    print("Pipeline:", nlp_cn.pipe_names)
 
     for sent in doc.sents:
         # parse into sentences (sent)
