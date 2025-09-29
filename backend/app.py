@@ -68,11 +68,12 @@ async def analyze_text(request: Request, payload: dict = Body(...)):
         return {"error": f"Unsupported language detected: {lang}"}
     
     try:
+        print("Gemini request sent")
         response = client.models.generate_content(
             model="gemini-2.5-flash",
             contents=prompt
         )
     except Exception as e:
         return {"error": f"AI generation failed: {str(e)}"}
-    
+    print("Gemini response received")
     return {"language": lang, "analysis": response.text}
