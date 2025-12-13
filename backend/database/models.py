@@ -5,6 +5,8 @@ from sqlmodel import Field, Session, SQLModel, create_engine, select
 
 # FastAPI & SQL tutorial: 
 # https://fastapi.tiangolo.com/tutorial/sql-databases/#create-the-app-with-a-single-model
+# Local testing at:
+# http://127.0.0.1:8000/docs#/
 
 # Creating Database models
 class User(SQLModel, table=True): # represents a table in the db, not just a data model
@@ -30,6 +32,7 @@ sqlite_url = f"sqlite:///{sqlite_file_name}"
 # necessary because one request could use more than one thread (e.g. dependencies)
 connect_args = {"check_same_thread": False}
 engine = create_engine(sqlite_url, connect_args=connect_args)
+
 
 # Creating the Tables
 def create_db_and_tables(): 
@@ -61,15 +64,21 @@ def create_user(user: User, session: SessionDep) -> User:
     session.refresh(user)
     return user
 
-@app.post("/records/")
+@app.post("/records/", response_model=AnalysisRecord)
 def create_record(record: AnalysisRecord, session: SessionDep) -> AnalysisRecord:
+    user_id = record.owner_id
+    # manual check to prevent integrity errors
+    user = session.get(User, user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User in record not found")
+
     session.add(record)
     session.commit()
     session.refresh(record)
     return record
 
 @app.get("/users/{user_id}")
-def read_hero(user_id: int, session: SessionDep) -> User:
+def read_user(user_id: int, session: SessionDep) -> User:
     user = session.get(User, user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
