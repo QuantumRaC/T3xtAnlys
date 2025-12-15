@@ -10,12 +10,26 @@ from google import genai
 import os
 from dotenv import load_dotenv
 
+# DB:
+from fastapi import Depends, HTTPException, Header
+from sqlmodel import Session, select
+from typing import Annotated
+
 load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
-app = FastAPI() #creating FastAPI application obj ("server")
+app = FastAPI() #creating FastAPI application "server"
 client = genai.Client(api_key=api_key)
 nlp_en = None
 nlp_cn = None
+
+# entry point for web app
+
+# FastAPI automates the conversion of Python objects into JSON;
+# The response model handles the translation.
+# Sessions are temporary single-user-request staging tables between the user and the db
+# Depends(get_session) is a Dependency Injection that ensures everytime a user hits the API 
+# they get a fresh clean Session with no data conflicts.
+# Tags are purely for Documentation Organization (grouped together under their headers).
 
 # Initialize Limiter
 limiter = Limiter(key_func=get_remote_address)
@@ -38,6 +52,77 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+# --- IMPORT FROM BACKEND MODULE ---
+from backend.database.models import (
+    User, AnalysisRecord, 
+    create_db_and_tables, get_session, engine
+)
+
+# Dependency for Database Session
+SessionDep = Annotated[Session, Depends(get_session)]
+
+# Creates the Database Tables when the application starts
+# probably use a migration script that runs before app is started for production
+@app.on_event("startup")
+def on_startup():
+    create_db_and_tables()
+
+# Dependency for Mock Auth ("Login")
+def get_current_user(
+    session: SessionDep, 
+    x_user_id: int = Header(...)
+) -> User:
+    
+    user = session.get(User, x_user_id)
+    if not user:
+        raise HTTPException(status_code=400, detail="Invalid User ID")
+    return user
+
+
+# New Endpoints:
+
+@app.post("/users/", tags=["Database"])
+def create_user(user: User, session: SessionDep) -> User:
+    # same Pydantic model type annotations can be used,
+    # i.e. type User can be read directly from JSON body
+    session.add(user)
+    session.commit()
+    session.refresh(user)
+    return user
+
+@app.post("/records/", response_model=AnalysisRecord, tags=["Database"])
+def create_record(record: AnalysisRecord, session: SessionDep) -> AnalysisRecord:
+    user_id = record.owner_id
+    # manual check to prevent integrity errors 
+    # since SQLite foreign keys aren't strictly enforced by default
+    user = session.get(User, user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User in record not found")
+
+    session.add(record)
+    session.commit()
+    session.refresh(record)
+    return record
+
+# @app.get("/users/{user_id}", tags=["Database"])
+# def read_user(user_id: int, session: SessionDep) -> User:
+#     user = session.get(User, user_id)
+#     if not user:
+#         raise HTTPException(status_code=404, detail="User not found")
+#     return user
+
+@app.get("/records/{record_id}", response_model=AnalysisRecord, tags=["Database"])
+def read_record(
+    record_id: int,
+    current_user: User = Depends(get_current_user),
+    session: Session = Depends(get_session)
+):
+    record = session.get(AnalysisRecord, record_id)
+    if not record:
+        raise HTTPException(status_code=404, detail="Record not found")
+    return record
 
 @app.get("/")
 async def root():
