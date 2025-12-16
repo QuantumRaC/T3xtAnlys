@@ -72,7 +72,7 @@ def on_startup():
 # Dependency for Mock Auth ("Login")
 def get_current_user(
     session: SessionDep, 
-    x_user_id: int = Header(...)
+    x_user_id: int = Header(...) # Tells FastAPI this header is Required
 ) -> User:
     
     user = session.get(User, x_user_id)
@@ -105,13 +105,6 @@ def create_record(record: AnalysisRecord, session: SessionDep) -> AnalysisRecord
     session.commit()
     session.refresh(record)
     return record
-
-# @app.get("/users/{user_id}", tags=["Database"])
-# def read_user(user_id: int, session: SessionDep) -> User:
-#     user = session.get(User, user_id)
-#     if not user:
-#         raise HTTPException(status_code=404, detail="User not found")
-#     return user
 
 @app.get("/records/{record_id}", response_model=AnalysisRecord, tags=["Database"])
 def read_record(
