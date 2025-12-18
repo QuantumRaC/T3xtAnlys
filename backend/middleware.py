@@ -37,7 +37,7 @@ class RSignatureMiddleware(BaseHTTPMiddleware):
         # We will call it at the end after verification.
 
         # 1. Exclude "safe" paths so the middleware doesn't block itself
-        safe_paths = ["/docs", "/openapi.json", "/redoc"]
+        safe_paths = ["/docs", "/docs#", "/openapi.json", "/redoc"]
         if request.url.path in safe_paths:
             return await call_next(request)
         
