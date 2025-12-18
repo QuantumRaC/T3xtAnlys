@@ -45,15 +45,16 @@ async def rate_limit_handler(request: Request, exc: RateLimitExceeded):
     )
 
 from fastapi.middleware.cors import CORSMiddleware
+from backend.middleware import RSignatureMiddleware # Custom HMAC-SHA256 signature middleware
 
+app.add_middleware(RSignatureMiddleware)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],   # during dev allow all; in prod restrict to site
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"],
+    allow_headers=["*", "X-rSec-Timestamp", "X-rSec-Signature", "x-user-id"], # expose custom headers to CORS
 )
-
 
 # --- IMPORT FROM BACKEND MODULE ---
 from backend.database.models import (
