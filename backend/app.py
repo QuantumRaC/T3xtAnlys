@@ -14,6 +14,7 @@ from dotenv import load_dotenv
 from fastapi import Depends, HTTPException, Header
 from sqlmodel import Session, select
 from typing import Annotated
+from typing import List # helper to display all users & records
 
 load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
@@ -92,6 +93,7 @@ def create_user(user: User, session: SessionDep) -> User:
     session.refresh(user)
     return user
 
+# Manual override for creating record; automated creation is in the /analyze_text endpoint
 @app.post("/records/", response_model=AnalysisRecord, tags=["Database"])
 def create_record(record: AnalysisRecord, session: SessionDep) -> AnalysisRecord:
     user_id = record.owner_id
@@ -113,9 +115,23 @@ def read_record(
     session: Session = Depends(get_session)
 ):
     record = session.get(AnalysisRecord, record_id)
+    # Check record existence
     if not record:
         raise HTTPException(status_code=404, detail="Record not found")
+    # Fix IDOR vulnerability by checking ownership (authorization)
+    if(current_user.id != record.owner_id):
+        raise HTTPException(status_code=403, detail="Not authorized to access this record")
+   
     return record
+
+# Helper endpoint to see everyone in the DB
+@app.get("/debug/db", tags=["Debug"])
+def read_all_data(session: Session = Depends(get_session)):
+    users = session.exec(select(User)).all()
+    records = session.exec(select(AnalysisRecord)).all()
+    return {"users": users, "records": records}
+
+# Basic Root Endpoint
 
 @app.get("/")
 async def root():
@@ -123,12 +139,23 @@ async def root():
 
 @app.post("/analyze")
 @limiter.limit("30/minute;500/day")
-async def analyze_text(request: Request, payload: dict = Body(...)):
+async def analyze_text(
+    request: Request, 
+    payload: dict = Body(...),
+    session = Depends(get_session)):
     text = payload.get("text", "")
     if not text.strip():
         return {"error": "No text provided."}
-
     lang = detect(text)
+
+    # 1. Cache check
+    existing_record = session.exec(
+        select(AnalysisRecord).where(AnalysisRecord.input == text)
+    ).first()
+    if existing_record:
+        return {"language": lang, "analysis": existing_record.output}
+    
+    # 2. Cache not hit scenario - analyze
     print(text)
     if lang == "en":
         global nlp_en
@@ -153,5 +180,12 @@ async def analyze_text(request: Request, payload: dict = Body(...)):
         )
     except Exception as e:
         return {"error": f"AI generation failed: {str(e)}"}
+    
     print("Gemini response received")
+    
+    # 3. Save new AnalysisRecord to DB
+    new_record = AnalysisRecord(input=text, output=response.text, owner_id=1) #TODO: owner_id is now default =1 for testing
+    session.add(new_record)
+    session.commit()
+    print("New analysis cached")
     return {"language": lang, "analysis": response.text}
