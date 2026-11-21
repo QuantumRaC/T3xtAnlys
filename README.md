@@ -31,7 +31,7 @@ To analyze how **writing techniques, word choice, grammatical structures, and se
 
 | Language | Model            | Reason                                                                                                |
 | -------- | ---------------- | ----------------------------------------------------------------------------------------------------- |
-| English  | `en_core_web_md` | Medium-sized English model with **vectors** for richer token representations and semantic similarity. |
+| English  | `en_core_web_sm` | Small English pipeline for tagging, parsing and morphology; it is the model the backend loads and the one pinned in `requirements.txt`. |
 | Chinese  | `zh_core_web_sm` | Lightweight Chinese language model for syntactic and morphological parsing.                           |
 
 ---
